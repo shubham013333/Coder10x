@@ -6,6 +6,12 @@ from .models import Subscription
 from .serializers import SubscriptionSerializer
 from rest_framework import viewsets 
 from django.core.paginator import Paginator
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import SubscriptionSerializer
 class PostListView(View):
     def get(self, request):
         # Order posts by published_date in descending order (latest first)
@@ -29,9 +35,8 @@ class PostDetailView(View):
         return JsonResponse(data)
 
 
-class SubscribeView(View):
-    def post(self, request):
-        # Deserialize the email data and save it to the model
+class SubscribeView(APIView):
+    def post(self, request, *args, **kwargs):
         serializer = SubscriptionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
