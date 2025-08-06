@@ -25,7 +25,13 @@ SECRET_KEY = 'django-insecure-o4su6h-5e(x%8hu)!x$6fq^v^5_w_&34y)bcxirx4qjswsn7lt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['coder10x.onrender.com', 'localhost','coder10x.netlify.app','coder10.com']
+ALLOWED_HOSTS = [
+    "coder10x.onrender.com", 
+    "localhost",
+    "coder10x.netlify.app", 
+    "coder10x.com",
+    "www.coder10.com"
+]
 
 
 # Application definition
@@ -111,7 +117,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CORS_ALLOWED_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://coder10x.com",         # your main domain
+    "https://www.coder10x.com",     # www version
+    "https://coder10x.netlify.app", # if using Netlify
+    "http://localhost:3000",        # React dev server
+]
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
