@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import dj_database_url
+import os
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,17 +25,39 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 SECRET_KEY = 'django-insecure-o4su6h-5e(x%8hu)!x$6fq^v^5_w_&34y)bcxirx4qjswsn7lt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
+<<<<<<< HEAD
     "coder10x.onrender.com", 
     "localhost",
     "coder10x.netlify.app", 
     "coder10x.com",
     "www.coder10.com"
+=======
+    'coder10x.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    'coder10x.com',          # your custom domain if pointing to backend
+    'www.coder10x.com',
+    'coder10x.netlify.app',  # if frontend hosted here and calling API
+>>>>>>> 4ef199b (oll)
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://coder10x.onrender.com',
+    'https://coder10x.com',
+    'https://www.coder10x.com',
+    'https://coder10x.netlify.app',
+]
 
+# CORS (if you use django-cors-headers)
+CORS_ALLOWED_ORIGINS = [
+    'https://coder10x.netlify.app',
+    'https://coder10x.com',
+    'https://www.coder10x.com',
+    'http://localhost:3000',
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -57,6 +81,7 @@ CKEDITOR_CONFIGS = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -64,8 +89,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+<<<<<<< HEAD
     'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+=======
+    
+>>>>>>> 4ef199b (oll)
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ROOT_URLCONF = 'ezblogs_backend.urls'
@@ -98,6 +127,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# If DATABASE_URL is set (Render/Postgres), use it
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.config(
+        default=DATABASE_URL,
+        conn_max_age=600,  # Keep DB connections open for performance
+        ssl_require=True   # Required for Render Postgres
+    )
 
 
 # Password validation
